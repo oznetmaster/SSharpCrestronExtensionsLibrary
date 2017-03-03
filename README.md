@@ -24,7 +24,7 @@ HasFlag (from.NET 4.0)
   Format *
 ```
   
-### Char extensions (missing from CF or .NET 4.0)
+### Char extensions (missing from CF or added in .NET 4.0)
 ```
   ToUpperInvariant
   ToLowerInvariant
