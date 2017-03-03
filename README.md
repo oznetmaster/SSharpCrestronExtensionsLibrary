@@ -40,7 +40,7 @@ HasFlag (from.NET 4.0)
   IsLowSurrogate
 ```
   
-### ArrayEx static extensions (missing from CF or .NET 4.0)
+### ArrayEx static extensions (missing from CF or add in .NET 4.0)
 ```
   Empty<T>
   TrueForAll<T>
@@ -50,7 +50,7 @@ HasFlag (from.NET 4.0)
   FindIndex<T>
 ```
 
-### String extensions (missing from CF or in .NET 4.0)
+### String extensions (missing from CF or in added in .NET 4.0)
 ```
   Split (all missing overloads)
   ToLowerInvariant
@@ -58,7 +58,7 @@ HasFlag (from.NET 4.0)
   Remove (missing overload)
 ```
 
-### StringEx static extensions (missing from CF or in .NET 4.0)
+### StringEx static extensions (missing from CF or added in .NET 4.0)
 ```
   IsNullOrWhiteSpace
   Join<T>
@@ -88,7 +88,7 @@ Crestron.SimplSharp.AutoResetEvent
 Crestron.SimplShatp.ManualResetEvent
 ```
 
-### Crestron.SimplSharp.CrestronIO.Stream extensions (.NET 4.0)
+### Crestron.SimplSharp.CrestronIO.Stream extensions (added in .NET 4.0)
 ```
   CopyTo
 ```
