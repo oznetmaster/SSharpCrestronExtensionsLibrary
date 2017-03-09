@@ -11,7 +11,7 @@ namespace System
 		{
 		public static char ToUpperInvariant (this char c)
 			{
-			return Char.ToUpper (c, CultureInfo.InvariantCulture);
+			return Char.ToLowerInvariant (c);
 			}
 
 		public static char ToLowerInvariant (this char c)
@@ -104,5 +104,27 @@ namespace System
 				throw new ArgumentOutOfRangeException ("index");
 			}
 
+		public static bool TryParse (string s, out char result)
+			{
+			if (s == null || s.Length != 1)
+				{
+				result = (char)0;
+				return false;
+				}
+
+			result = s[0];
+			return true;
+			}
+
+		public static char Parse (string s)
+			{
+			if (s == null)
+				throw new ArgumentNullException ("s");
+
+			if (s.Length != 1)
+				throw new FormatException ("s contains more than one character.");
+
+			return s[0];
+			}
 		}
 	}

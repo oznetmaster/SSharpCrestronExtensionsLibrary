@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using SSMono;
 
 namespace System
 	{
@@ -24,12 +23,12 @@ namespace System
 				throw new ArgumentException ("Illegal enum value: " + options + ".");
 
 			if (s.Length == 0 && (options & StringSplitOptions.RemoveEmptyEntries) != 0)
-				return EmptyArray<string>.Value;
+				return ArrayEx.Empty<string> ();
 
 			if (count <= 1)
 				{
 				return count == 0 ?
-					EmptyArray<string>.Value :
+					ArrayEx.Empty<string> () :
 					new String[1] { s };
 				}
 
@@ -51,7 +50,7 @@ namespace System
 			if (count <= 1)
 				{
 				return count == 0 ?
-					EmptyArray<string>.Value :
+					ArrayEx.Empty<string> () :
 					new String[1] { s };
 				}
 
@@ -61,7 +60,7 @@ namespace System
 				return s.SplitByCharacters (null, count, removeEmpty);
 
 			if (s.Length == 0 && removeEmpty)
-				return EmptyArray<string>.Value;
+				return ArrayEx.Empty<string> ();
 
 			List<String> arr = new List<String> ();
 
@@ -107,7 +106,7 @@ namespace System
 
 			// string contained only separators
 			if (removeEmpty && matchCount != 0 && pos == s.Length && arr.Count == 0)
-				return EmptyArray<string>.Value;
+				return ArrayEx.Empty<string> ();
 
 			if (!(removeEmpty && pos == s.Length))
 				arr.Add (s.Substring (pos));

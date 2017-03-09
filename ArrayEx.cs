@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Crestron.SimplSharp;
+using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace System
 	{
@@ -10,7 +12,12 @@ namespace System
 		{
 		public static T[] Empty<T> ()
 			{
-			return new T[0];
+			return EmptyArray<T>.Value;
+			}
+
+		internal static class EmptyArray<T>
+			{
+			public static readonly T[] Value = new T[0];
 			}
 
 		public static bool TrueForAll<T> (T[] array, Predicate<T> match)
@@ -154,5 +161,107 @@ namespace System
 
 			return -1;
 			}
+
+		public static int IndexOf (Array array, object value)
+			{
+			if (array == null)
+				throw new ArgumentNullException ("array");
+
+			return Array.IndexOf (array, value, 0, array.Length);
+			}
+
+		public static int IndexOf (Array array, object value, int startIndex)
+			{
+			if (array == null)
+				throw new ArgumentNullException ("array");
+
+			return Array.IndexOf (array, value, startIndex, array.Length - startIndex);
+			}
+
+		public static void Sort (Array keys, Array items)
+			{
+			Array.Sort (keys, items, (IComparer)null);
+			}
+
+		public static void Sort (Array array, int index, int length)
+			{
+			Array.Sort (array, index, length, (IComparer)null);
+			}
+
+		public static void Sort (Array keys, Array items, int index, int length)
+			{
+			Array.Sort (keys, items, index, length, (IComparer)null);
+			}
+
+		public static T[] FindAll<T> (T[] array, Predicate<T> match)
+			{
+			if (array == null)
+				throw new ArgumentNullException ("array");
+
+			if (match == null)
+				throw new ArgumentNullException ("match");
+
+			int pos = 0;
+			T[] d = new T[array.Length];
+			foreach (T t in array)
+				if (match (t))
+					d[pos++] = t;
+
+			Array.Resize<T> (ref d, pos);
+			return d;
+			}
+
+		public static bool Exists<T> (T[] array, Predicate<T> match)
+			{
+			if (array == null)
+				throw new ArgumentNullException ("array");
+
+			if (match == null)
+				throw new ArgumentNullException ("match");
+
+			foreach (T t in array)
+				if (match (t))
+					return true;
+			return false;
+			}
+
+		public static ReadOnlyCollection<T> AsReadOnly<T> (T[] array)
+			{
+			if (array == null)
+				throw new ArgumentNullException ("array");
+
+			return new ReadOnlyCollection<T> (array);
+			}
+
+		public static T Find<T> (T[] array, Predicate<T> match)
+			{
+			if (array == null)
+				throw new ArgumentNullException ("array");
+
+			if (match == null)
+				throw new ArgumentNullException ("match");
+
+			foreach (T t in array)
+				if (match (t))
+					return t;
+
+			return default (T);
+			}
+
+		public static T FindLast<T> (T[] array, Predicate<T> match)
+			{
+			if (array == null)
+				throw new ArgumentNullException ("array");
+
+			if (match == null)
+				throw new ArgumentNullException ("match");
+
+			for (int i = array.Length - 1; i >= 0; i--)
+				if (match (array[i]))
+					return array[i];
+
+			return default (T);
+			}
+
 		}
 	}
