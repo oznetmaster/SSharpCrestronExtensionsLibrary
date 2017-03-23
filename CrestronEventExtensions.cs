@@ -56,6 +56,15 @@ namespace Crestron.SimplSharp
 			{
 			return ceh.Wait ((int)timeout.TotalMilliseconds);
 			}
+
+		public static void Set (this CEventHandle ceh)
+			{
+			var cev = ceh as CEvent;
+			if (cev == null)
+				throw new ArgumentException ("invalid CEventHandle", "ceh");
+
+			cev.Set ();
+			}
 		}
 
 	public class AutoResetEvent : CEvent
