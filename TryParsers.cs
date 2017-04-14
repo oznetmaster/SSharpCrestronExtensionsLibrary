@@ -58,6 +58,31 @@ namespace System
 			}
 		}
 
+	public static class SByteEx
+		{
+		public static bool TryParse (string s, out sbyte result)
+			{
+			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool TryParse (string s, NumberStyles style, IFormatProvider provider, out sbyte result)
+			{
+			if (s != null)
+				{
+				try
+					{
+					result = SByte.Parse (s, style, provider);
+					return true;
+					}
+				catch (Exception)
+					{
+					}
+				}
+			result = default(sbyte);
+			return false;
+			}
+		}
+
 	public static class Int16Ex
 		{
 
