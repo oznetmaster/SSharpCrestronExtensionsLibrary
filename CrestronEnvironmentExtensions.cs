@@ -249,5 +249,10 @@ namespace Crestron.SimplSharp
 			{
 			get { return false; }
 			}
+
+		public static int ProcessorCount
+			{
+			get { return 1; }
+			}
 		}
 	}
