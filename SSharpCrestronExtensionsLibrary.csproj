@@ -82,6 +82,7 @@
     <Compile Include="Func.cs" />
     <Compile Include="IObservable.cs" />
     <Compile Include="IObserver.cs" />
+    <Compile Include="IPAddressEx.cs" />
     <Compile Include="IPAddressExtensions.cs" />
     <Compile Include="OperatingSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
