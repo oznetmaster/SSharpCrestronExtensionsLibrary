@@ -72,8 +72,10 @@
     <Compile Include="Action.cs" />
     <Compile Include="ArrayEx.cs" />
     <Compile Include="CharExtensions.cs" />
+    <Compile Include="CrestronConsoleExtensions.cs" />
     <Compile Include="CrestronEnvironmentExtensions.cs" />
     <Compile Include="CrestronEventExtensions.cs" />
+    <Compile Include="CrestronIPEndPoint.cs" />
     <Compile Include="CrestronStreamExtensions.cs" />
     <Compile Include="CrestronTimerExtensions.cs" />
     <Compile Include="DnsEx.cs" />

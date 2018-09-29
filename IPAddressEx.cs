@@ -21,5 +21,22 @@ namespace Crestron.SimplSharp
 				return false;
 				}
 			}
+
+		public static bool IsLoopback (IPAddress address)
+			{
+			if (address.AddressFamily == AddressFamily.InterNetwork)
+				return (address.GetAddressBytes ()[0] & 0xFF) == 127;
+
+			var words = address.GetAddressWords ();
+
+			for (int i = 0; i < 6; i++)
+				{
+				if (words[i] != 0)
+					return false;
+				}
+
+			return IPAddress.NetworkToHostOrder ((short)words[7]) == 1;
+			}
+
 		}
 	}
