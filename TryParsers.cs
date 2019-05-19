@@ -415,4 +415,25 @@ namespace System
 			return false;
 			}
 		}
+
+	public static class TimeSpanEx
+		{
+		public static bool TryParse (string s, out TimeSpan result)
+			{
+			if (s != null)
+				{
+				try
+					{
+					result = TimeSpan.Parse (s);
+					return true;
+					}
+				catch (Exception)
+					{
+					}
+				}
+
+			result = default (TimeSpan);
+			return false;
+			}
+		}
 	}
