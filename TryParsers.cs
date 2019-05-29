@@ -30,9 +30,56 @@
 
 using System;
 using System.Globalization;
+using Crestron.SimplSharp.Reflection;
 
 namespace System
 	{
+	public static class TryParser
+		{
+		private static readonly CType[] parseParamTypes = new CType[] { typeof (string), typeof (NumberStyles), typeof (IFormatProvider) };
+
+		public static bool TryParse<T> (string s, out T result) where T : struct, IComparable, IComparable<T>, IFormattable, IConvertible, IEquatable<T> 
+			{
+			return TryParse<T> (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool TryParse<T> (string s, NumberStyles style, IFormatProvider provider, out T result) where T : struct, IComparable, IComparable<T>, IFormattable, IConvertible, IEquatable<T> 
+			{
+			MethodInfo parseMethod = typeof (T).GetCType ().GetMethod ("Parse", parseParamTypes);
+
+			if (s != null)
+				{
+				try
+					{
+					if (parseMethod != null)
+						{
+						result = (T)parseMethod.Invoke (null, new object[] {s, style, provider});
+						return true;
+						}
+					}
+				catch (Exception)
+					{
+					}
+				}
+			result = default (T);
+			return false;
+			}
+
+		public static bool IsParsable<T> (string s) where T : struct, IComparable, IComparable<T>, IFormattable, IConvertible, IEquatable<T>
+			{
+			T result;
+
+			return TryParse<T> (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool IsParsable<T> (string s, NumberStyles style, IFormatProvider provider) where T : struct, IComparable, IComparable<T>, IFormattable, IConvertible, IEquatable<T>
+			{
+			T result;
+
+			return TryParse<T> (s, style, provider, out result);
+			}
+		}
+
 	public static class ByteEx
 		{
 		public static bool TryParse (string s, out byte result)
@@ -55,6 +102,20 @@ namespace System
 				}
 			result = default(byte);
 			return false;
+			}
+
+		public static bool IsParsable (string s)
+			{
+			byte result;
+
+			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
+			{
+			byte result;
+
+			return TryParse (s, style, provider, out result);
 			}
 		}
 
@@ -81,11 +142,24 @@ namespace System
 			result = default(sbyte);
 			return false;
 			}
+
+		public static bool IsParsable (string s)
+			{
+			sbyte result;
+
+			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
+			{
+			sbyte result;
+
+			return TryParse (s, style, provider, out result);
+			}
 		}
 
 	public static class Int16Ex
 		{
-
 		public static bool TryParse (string s, out short result)
 			{
 			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
@@ -107,11 +181,24 @@ namespace System
 			result = default(short);
 			return false;
 			}
+
+		public static bool IsParsable (string s)
+			{
+			short result;
+
+			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
+			{
+			short result;
+
+			return TryParse (s, style, provider, out result);
+			}
 		}
 
 	public static class Int32Ex
 		{
-
 		public static bool TryParse (string s, out int result)
 			{
 			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
@@ -133,11 +220,24 @@ namespace System
 			result = default(int);
 			return false;
 			}
+
+		public static bool IsParsable (string s)
+			{
+			int result;
+
+			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
+			{
+			int result;
+
+			return TryParse (s, style, provider, out result);
+			}
 		}
 
 	public static class Int64Ex
 		{
-
 		public static bool TryParse (string s, out long result)
 			{
 			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
@@ -159,11 +259,24 @@ namespace System
 			result = default(long);
 			return false;
 			}
+
+		public static bool IsParsable (string s)
+			{
+			long result;
+
+			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
+			{
+			long result;
+
+			return TryParse (s, style, provider, out result);
+			}
 		}
 
 	public static class UInt16Ex
 		{
-
 		public static bool TryParse (string s, out ushort result)
 			{
 			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
@@ -185,11 +298,24 @@ namespace System
 			result = default(ushort);
 			return false;
 			}
+
+		public static bool IsParsable (string s)
+			{
+			ushort result;
+
+			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
+			{
+			ushort result;
+
+			return TryParse (s, style, provider, out result);
+			}
 		}
 
 	public static class UInt32Ex
 		{
-
 		public static bool TryParse (string s, out uint result)
 			{
 			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
@@ -210,6 +336,20 @@ namespace System
 				}
 			result = default(uint);
 			return false;
+			}
+
+		public static bool IsParsable (string s)
+			{
+			uint result;
+
+			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
+			{
+			uint result;
+
+			return TryParse (s, style, provider, out result);
 			}
 		}
 
@@ -236,6 +376,20 @@ namespace System
 			result = default(ulong);
 			return false;
 			}
+
+		public static bool IsParsable (string s)
+			{
+			ulong result;
+
+			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
+			{
+			ulong result;
+
+			return TryParse (s, style, provider, out result);
+			}
 		}
 
 	public static class BooleanEx
@@ -256,6 +410,13 @@ namespace System
 				}
 			result = default (bool);
 			return false;
+			}
+
+		public static bool IsParsable (string s)
+			{
+			bool result;
+
+			return TryParse (s, out result);
 			}
 		}
 
@@ -339,6 +500,20 @@ namespace System
 			result = default (DateTime);
 			return false;
 			}
+
+		public static bool IsParsable (string s)
+			{
+			DateTime result;
+
+			return TryParse (s, out result);
+			}
+
+		public static bool IsParsable (string s, IFormatProvider provider, DateTimeStyles styles)
+			{
+			DateTime result;
+
+			return TryParse (s, provider, styles, out result);
+			}
 		}
 
 	public static class DoubleEx
@@ -363,6 +538,20 @@ namespace System
 				}
 			result = default(Double);
 			return false;
+			}
+
+		public static bool IsParsable (string s)
+			{
+			double result;
+
+			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
+			{
+			double result;
+
+			return TryParse (s, style, provider, out result);
 			}
 		}
 
@@ -389,6 +578,20 @@ namespace System
 			result = default(Single);
 			return false;
 			}
+
+		public static bool IsParsable (string s)
+			{
+			float result;
+
+			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
+			{
+			float result;
+
+			return TryParse (s, style, provider, out result);
+			}
 		}
 
 	public static class DecimalEx
@@ -414,6 +617,20 @@ namespace System
 			result = default (Decimal);
 			return false;
 			}
+
+		public static bool IsParsable (string s)
+			{
+			decimal result;
+
+			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			}
+
+		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
+			{
+			decimal result;
+
+			return TryParse (s, style, provider, out result);
+			}
 		}
 
 	public static class TimeSpanEx
@@ -434,6 +651,13 @@ namespace System
 
 			result = default (TimeSpan);
 			return false;
+			}
+
+		public static bool IsParsable (string s)
+			{
+			TimeSpan result;
+
+			return TryParse (s, out result);
 			}
 		}
 	}
