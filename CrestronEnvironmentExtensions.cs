@@ -1,4 +1,5 @@
 ﻿#region License
+
 /*
  * CrestronEnvironmentExtensions.cs
  *
@@ -24,14 +25,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Crestron.SimplSharp.CrestronIO;
-using OperatingSystem = Crestron.SimplSharp.OperatingSystem;
+using Crestron.SimplSharp.Reflection;
 
 namespace Crestron.SimplSharp
 	{
@@ -41,6 +40,9 @@ namespace Crestron.SimplSharp
 			{
 			CrestronEnvironment.ProgramStatusEventHandler += CrestronEnvironment_ProgramStatusEventHandler;
 			CrestronEnvironment.SystemEventHandler += CrestronEnvironment_SystemEventHandler;
+
+			s_haveSystemResources = File.Exists (Path.Combine (InitialParametersClass.ProgramDirectory.ToString (), "SSRefMscorlibResources.dll"))
+				&& File.Exists (Path.Combine (InitialParametersClass.ProgramDirectory.ToString (), "SSCoreResourceLibrary.dll"));
 			}
 
 		private static void CrestronEnvironment_SystemEventHandler (eSystemEventType systemEventType)
@@ -253,6 +255,111 @@ namespace Crestron.SimplSharp
 		public static int ProcessorCount
 			{
 			get { return 1; }
+			}
+
+		public static void Sleep (int timeoutInMsec)
+			{
+			CrestronEnvironment.Sleep (timeoutInMsec);
+			}
+
+		public static void AllowOtherAppsToRun ()
+			{
+			CrestronEnvironment.AllowOtherAppsToRun ();
+			}
+
+		private static bool s_haveSystemResources;
+		private static object s_internalSyncObject;
+		private static GetStringDelegate s_getString;
+
+		private delegate string GetStringDelegate (string name);
+
+		internal static object InternalSyncObject
+			{
+			get
+				{
+				if (ReferenceEquals (s_internalSyncObject, null))
+					{
+					Interlocked.CompareExchange (ref s_internalSyncObject, new object (), null);
+					}
+				return s_internalSyncObject;
+				}
+			}
+
+		private static GetStringDelegate GetString
+			{
+			get
+				{
+				if (ReferenceEquals (s_getString, null))
+					{
+					CMonitor.Enter (InternalSyncObject);
+					try
+						{
+						if (ReferenceEquals (s_getString, null))
+							{
+							var managerAssembly = Assembly.LoadFrom (Path.Combine (InitialParametersClass.ProgramDirectory.ToString (), "SSCoreResourceLibrary.dll"));
+							if (managerAssembly == null)
+								{
+								s_haveSystemResources = false;
+								return null;
+								}
+
+							var resourceManagerType = managerAssembly.GetType ("SSCore.Resources.ResourceManager");
+							if (resourceManagerType == null)
+								{
+								s_haveSystemResources = false;
+								return null;
+								}
+
+							var getString = resourceManagerType.GetMethod ("GetString", new CType[] { typeof (string) });
+							if (getString == null)
+								{
+								s_haveSystemResources = false;
+								return null;
+								}
+
+							var sr = Assembly.LoadFrom (Path.Combine (InitialParametersClass.ProgramDirectory.ToString (), "SSRefMscorlibResources.dll"));
+							if (sr == null)
+								{
+								s_haveSystemResources = false;
+								return null;
+								}
+
+							var ctorResourceManager = resourceManagerType.GetConstructor (new CType[] {typeof (string), typeof (Assembly)});
+							var resourceManager = ctorResourceManager.Invoke (new object[] {"SSRefMscorlibResources.SR", sr});
+							if (resourceManager == null)
+								{
+								s_haveSystemResources = false;
+								return null;
+								}
+
+							s_getString = (GetStringDelegate)CDelegate.CreateDelegate (typeof (GetStringDelegate), resourceManager, getString);
+							}
+						}
+					finally
+						{
+						CMonitor.Exit (InternalSyncObject);
+						}
+					}
+
+				return s_getString;
+				}
+			}
+
+
+		public static string GetResourceString (string key)
+			{
+			if (!s_haveSystemResources || GetString == null)
+				return key;
+
+			return GetString (key);
+			}
+
+		public static string GetResourceString (string fmt, params Object[] args)
+			{
+			if (!s_haveSystemResources || GetString == null)
+				return fmt;
+
+			return String.Format (GetString (fmt), args);
 			}
 		}
 	}

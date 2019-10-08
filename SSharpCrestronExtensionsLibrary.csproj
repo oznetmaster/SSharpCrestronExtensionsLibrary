@@ -93,6 +93,7 @@
     <Compile Include="StringSplitOptions.cs" />
     <Compile Include="TextExtensions.cs" />
     <Compile Include="TryParsers.cs" />
+    <Compile Include="Volatile.cs" />
     <Compile Include="WeakReference_T.cs" />
     <None Include="Properties\ControlSystem.cfg" />
   </ItemGroup>
