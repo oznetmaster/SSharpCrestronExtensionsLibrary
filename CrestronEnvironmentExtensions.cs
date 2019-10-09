@@ -361,5 +361,43 @@ namespace Crestron.SimplSharp
 
 			return String.Format (GetString (fmt), args);
 			}
+
+		private delegate object DelGetCurrentThread ();
+
+		private static Type s_CTypeThread;
+		private static DelGetCurrentThread s_GetCurrentThread;
+
+		private static MethodInfo s_GetManagedThreadId;
+
+		public static int CurrentManagedThreadId
+			{
+			get
+				{
+				if (CrestronEnvironment.RuntimeEnvironment != eRuntimeEnvironment.SimplSharpPro)
+					return 0;
+
+				if (s_GetManagedThreadId == null)
+					{
+					try
+						{
+						s_CTypeThread = Type.GetType ("Crestron.SimplSharpPro.CrestronThread.Thread, SimplSharpPro");
+						}
+					catch
+						{
+						}
+
+					if (s_CTypeThread == null)
+						return 0;
+
+					var propCurrentThread = s_CTypeThread.GetCType ().GetProperty ("CurrentThread");
+					s_GetCurrentThread = (DelGetCurrentThread)CDelegate.CreateDelegate (typeof (DelGetCurrentThread), null, propCurrentThread.GetGetMethod ());
+
+					var propManagedThreadId = s_CTypeThread.GetCType().GetProperty ("ManagedThreadId");
+					s_GetManagedThreadId = propManagedThreadId.GetGetMethod ();
+					}
+
+				return (int)s_GetManagedThreadId.Invoke(s_GetCurrentThread (), null);
+				}
+			}
 		}
 	}
