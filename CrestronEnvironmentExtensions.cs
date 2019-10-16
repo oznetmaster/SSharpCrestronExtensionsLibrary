@@ -236,6 +236,20 @@ namespace Crestron.SimplSharp
 			CrestronConsole.SendControlSystemCommand ("stopprog -p:" + InitialParametersClass.ApplicationNumber, ref response);
 			}
 
+		public static void FailFast (string message, Exception exception)
+			{
+			ErrorLog.Error (String.Format ("FailFast: {0}\r\nException: {1}", message, exception));
+
+			if (Debugger.IsAttached)
+				{
+				Debugger.WriteLine (message);
+				Debugger.Break ();
+				}
+
+			string response = String.Empty;
+			CrestronConsole.SendControlSystemCommand ("stopprog -p:" + InitialParametersClass.ApplicationNumber, ref response);
+			}
+
 
 		public static bool IsRunningOnWindows
 			{
