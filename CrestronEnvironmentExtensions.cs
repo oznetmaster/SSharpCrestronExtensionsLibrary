@@ -42,7 +42,7 @@ namespace Crestron.SimplSharp
 			CrestronEnvironment.SystemEventHandler += CrestronEnvironment_SystemEventHandler;
 
 			s_haveSystemResources = File.Exists (Path.Combine (InitialParametersClass.ProgramDirectory.ToString (), "SSRefMscorlibResources.dll"))
-				&& File.Exists (Path.Combine (InitialParametersClass.ProgramDirectory.ToString (), "SSCoreResourceLibrary.dll"));
+				&& File.Exists (Path.Combine (InitialParametersClass.ProgramDirectory.ToString (), "SSRefResourceLibrary.dll"));
 			}
 
 		private static void CrestronEnvironment_SystemEventHandler (eSystemEventType systemEventType)
@@ -310,14 +310,14 @@ namespace Crestron.SimplSharp
 						{
 						if (ReferenceEquals (s_getString, null))
 							{
-							var managerAssembly = Assembly.LoadFrom (Path.Combine (InitialParametersClass.ProgramDirectory.ToString (), "SSCoreResourceLibrary.dll"));
+							var managerAssembly = Assembly.LoadFrom (Path.Combine (InitialParametersClass.ProgramDirectory.ToString (), "SSRefResourceLibrary.dll"));
 							if (managerAssembly == null)
 								{
 								s_haveSystemResources = false;
 								return null;
 								}
 
-							var resourceManagerType = managerAssembly.GetType ("SSCore.Resources.ResourceManager");
+							var resourceManagerType = managerAssembly.GetType ("SSRef.Resources.ResourceManager");
 							if (resourceManagerType == null)
 								{
 								s_haveSystemResources = false;

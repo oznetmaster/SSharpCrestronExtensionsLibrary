@@ -71,6 +71,8 @@
   <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="ArrayEx.cs" />
+    <Compile Include="ArrayListEx.cs" />
+    <Compile Include="arraysegment.cs" />
     <Compile Include="CharExtensions.cs" />
     <Compile Include="CrestronConsoleExtensions.cs" />
     <Compile Include="CrestronEnvironmentExtensions.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="CrestronIPEndPoint.cs" />
     <Compile Include="CrestronStreamExtensions.cs" />
     <Compile Include="CrestronTimerExtensions.cs" />
+    <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="DnsEx.cs" />
     <Compile Include="Enum2.cs" />
     <Compile Include="EnumExtensions.cs" />
@@ -86,11 +89,17 @@
     <Compile Include="IObserver.cs" />
     <Compile Include="IPAddressEx.cs" />
     <Compile Include="IPAddressExtensions.cs" />
+    <Compile Include="ireadonlycollection.cs" />
+    <Compile Include="ireadonlydictionary.cs" />
+    <Compile Include="ireadonlylist.cs" />
     <Compile Include="OperatingSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringBuilderExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="StringSplitOptions.cs" />
+    <Compile Include="System.Runtime.Serialization\DataContractAttribute.cs" />
+    <Compile Include="System.Runtime.Serialization\DataMemberAttribute.cs" />
+    <Compile Include="System.Runtime.Serialization\IgnoreDataMemberAttribute.cs" />
     <Compile Include="TextExtensions.cs" />
     <Compile Include="TryParsers.cs" />
     <Compile Include="Volatile.cs" />

@@ -520,7 +520,7 @@ namespace System
 		{
 		public static bool TryParse (string s, out double result)
 			{
-			return TryParse (s, NumberStyles.Number, NumberFormatInfo.CurrentInfo, out result);
+			return TryParse (s, NumberStyles.Float, NumberFormatInfo.CurrentInfo, out result);
 			}
 
 		public static bool TryParse (string s, NumberStyles style, IFormatProvider provider, out double result)
@@ -544,7 +544,7 @@ namespace System
 			{
 			double result;
 
-			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			return TryParse (s, NumberStyles.Float, NumberFormatInfo.CurrentInfo, out result);
 			}
 
 		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
@@ -559,7 +559,7 @@ namespace System
 		{
 		public static bool TryParse (string s, out float result)
 			{
-			return TryParse (s, NumberStyles.Number, NumberFormatInfo.CurrentInfo, out result);
+			return TryParse (s, NumberStyles.Float, NumberFormatInfo.CurrentInfo, out result);
 			}
 
 		public static bool TryParse (string s, NumberStyles style, IFormatProvider provider, out float result)
@@ -583,7 +583,7 @@ namespace System
 			{
 			float result;
 
-			return TryParse (s, NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out result);
+			return TryParse (s, NumberStyles.Float, NumberFormatInfo.CurrentInfo, out result);
 			}
 
 		public static bool IsParsable (string s, NumberStyles style, IFormatProvider provider)
