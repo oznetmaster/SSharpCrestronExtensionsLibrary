@@ -281,6 +281,17 @@ namespace Crestron.SimplSharp
 			CrestronEnvironment.AllowOtherAppsToRun ();
 			}
 
+		public static string UserName
+			{
+			get;
+			set;
+			}
+
+		public static string UserDomainName
+			{
+			get { return CrestronEthernetHelper.GetEthernetParameter (CrestronEthernetHelper.ETHERNET_PARAMETER_TO_GET.GET_DOMAIN_NAME, 0); }
+			}
+
 		private static bool s_haveSystemResources;
 		private static object s_internalSyncObject;
 		private static GetStringDelegate s_getString;

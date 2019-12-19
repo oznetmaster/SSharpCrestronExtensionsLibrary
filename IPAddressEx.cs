@@ -12,12 +12,20 @@ namespace Crestron.SimplSharp
 			{
 			try
 				{
+				if (ipString.Length > 2 && ipString[0] == '[' && ipString[ipString.Length - 1] == ']')
+					ipString = ipString.Substring (1, ipString.Length - 2);
+				if (ipString.Length < 2)
+					{
+					address = default(IPAddress);
+					return false;
+					}
+
 				address = IPAddress.Parse (ipString);
 				return true;
 				}
 			catch (FormatException)
 				{
-				address = IPAddress.None;
+				address = default(IPAddress);
 				return false;
 				}
 			}

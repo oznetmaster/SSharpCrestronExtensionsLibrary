@@ -22,7 +22,7 @@ namespace Crestron.SimplSharp
 
 			var numbers = new ushort[8];
 			for (int ix = 0; ix < 8; ix += 2)
-				numbers[ix / 2] = (ushort)((bytes[ix] << 8) | bytes[ix + 1]);
+				numbers[ix / 2] = (ushort)((bytes[ix + 1] << 8) | bytes[ix]);
 
 			return numbers;
 			}
