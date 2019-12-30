@@ -172,7 +172,33 @@ namespace OpenNETCF
 		/// <returns>An System.Array of the values of the constants in enumType. The elements of the array are sorted by the values of the enumeration constants.</returns>
 		/// <exception cref="System.ArgumentException">enumType parameter is not an System.Enum</exception>
 		/// <seealso cref="M:System.Enum.GetValues(System.Type)">System.Enum.GetValues Method</seealso>
-		public static Enum[] GetValues (Type enumType)
+		public static Array GetValues (Type enumType)
+			{
+			if (enumType.BaseType == Type.GetType ("System.Enum"))
+				{
+				//get the public static fields (members of the enum)
+				FieldInfo[] fi = enumType.GetCType ().GetFields (BindingFlags.Static | BindingFlags.Public);
+
+				//create a new enum array
+				var values = Array.CreateInstance (enumType, fi.Length);
+
+				//populate with the values
+				for (int iEnum = 0; iEnum < fi.Length; iEnum++)
+					{
+					values.SetValue(Enum.ToObject (enumType, fi[iEnum].GetValue (null)), iEnum);
+					}
+
+				//return the array
+				return values;
+				}
+			else
+				{
+				//the type supplied does not derive from enum
+				throw new ArgumentException ("enumType parameter is not an System.Enum");
+				}
+			}
+
+		public static Enum[] GetEnumValues (Type enumType)
 			{
 			if (enumType.BaseType == Type.GetType ("System.Enum"))
 				{
@@ -300,7 +326,7 @@ namespace OpenNETCF
 			//return t;
 
 			string[] names = Enum2.GetNames (enumType);
-			ulong[] values = Enum2.GetValues (enumType).Select (v => ToUInt64 (v)).ToArray ();
+			ulong[] values = Enum2.GetEnumValues (enumType).Select (v => ToUInt64 (v)).ToArray ();
 
 			ulong num = ToUInt64 (value);
 
@@ -350,7 +376,7 @@ namespace OpenNETCF
 			string[] names = null;
 			if (!showValues) names = GetNames (enumType);
 			ulong v = Convert.ToUInt64 (value);
-			Enum[] e = GetValues (enumType);
+			Enum[] e = GetEnumValues (enumType);
 			ArrayList al = new ArrayList ();
 			for (int i = 0; i < e.Length; i++)
 				{
