@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />
+    <Compile Include="ActivatorEx.cs" />
     <Compile Include="ArrayEx.cs" />
     <Compile Include="ArrayListEx.cs" />
     <Compile Include="arraysegment.cs" />
