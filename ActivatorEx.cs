@@ -43,12 +43,12 @@ namespace System
 
 		public static object CreateInstance (Type type)
 			{
-			return Activator.CreateInstance (type);
+			return Crestron.SimplSharp.Reflection.Activator.CreateInstance (type);
 			}
 
 		public static T CreateInstance<T> () where T : new()
 			{
-			return Activator.CreateInstance<T> ();
+			return Crestron.SimplSharp.Reflection.Activator.CreateInstance<T> ();
 			}
 
 		public static object CreateInstance (Type type, bool nonPublic)
@@ -56,7 +56,7 @@ namespace System
 			CType ct = type;
 
 			if (!nonPublic)
-				return Activator.CreateInstance (ct);
+				return Crestron.SimplSharp.Reflection.Activator.CreateInstance (ct);
 
 			var ci = ct.GetConstructor (BfNonPublic, null, ArrayEx.Empty<CType> (), null);
 			if (ci == null)
@@ -70,7 +70,7 @@ namespace System
 			CType ct = type;
 
 			if (args == null || args.Length == 0)
-				return Activator.CreateInstance (ct);
+				return Crestron.SimplSharp.Reflection.Activator.CreateInstance (ct);
 
 			var ci = ct.GetConstructor (args.Cast<CType>().ToArray ());
 			if (ci == null)
