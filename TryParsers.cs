@@ -553,6 +553,24 @@ namespace System
 
 			return TryParse (s, style, provider, out result);
 			}
+
+		private const long ExponentMask = 0x7FF0000000000000;
+
+		public static bool IsSubnormal (double v)
+			{
+			//long bithack = BitConverter.DoubleToInt64Bits (v);
+			long bithack = BitConverter.ToInt64 (BitConverter.GetBytes (v), 0);
+			if (bithack == 0) return false;
+			return (bithack & ExponentMask) == 0;
+			}
+
+		public static bool IsNormal (double v)
+			{
+			//long bithack = BitConverter.DoubleToInt64Bits (v);
+			long bithack = BitConverter.ToInt64 (BitConverter.GetBytes (v), 0);
+			bithack &= ExponentMask;
+			return (bithack != 0) && (bithack != ExponentMask);
+			}
 		}
 
 	public static class SingleEx

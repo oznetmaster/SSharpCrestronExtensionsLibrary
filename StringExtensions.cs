@@ -627,6 +627,21 @@ namespace System
 
 			return ba;
 			}
+
+		public static bool Contains (this string str, char value)
+			{
+			return str.IndexOf (value) != -1;
+			}
+
+		public static bool Contains (this string str, string value, StringComparison comparisonType)
+			{
+			return str.IndexOf (value, comparisonType) != -1;
+			}
+
+		public static bool Contains (this string str, char value, StringComparison comparisonType)
+			{
+			return str.IndexOf (value.ToString (), comparisonType) != -1;
+			}
 		}
 
 	public static class StringEx
